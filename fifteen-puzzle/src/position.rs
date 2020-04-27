@@ -46,3 +46,29 @@ impl Position {
     }
 }
 
+#[cfg(test)]
+mod test {
+    use crate::board::{BOARD_WIDTH, BOARD_HEIGHT};
+    use crate::position::Position;
+
+    #[test]
+    fn test_move_position() {
+        //加算減算が正しく処理されること
+        let position = Position::new(1, 1);
+        assert_eq!(Position::new(0, 1), position.minus_x());
+        assert_eq!(Position::new(2, 1), position.plus_x());
+        assert_eq!(Position::new(1, 0), position.minus_y());
+        assert_eq!(Position::new(1, 2), position.plus_y());
+
+        //ゼロより小さくならないこと
+        let position = Position::new(0, 0);
+        assert_eq!(Position::new(0, 0), position.minus_x());
+        assert_eq!(Position::new(0, 0), position.minus_y());
+
+        //最大サイズより大きくならないこと
+        let position = Position::new(BOARD_WIDTH, BOARD_HEIGHT);
+        assert_eq!(Position::new(BOARD_WIDTH, BOARD_HEIGHT), position.plus_x());
+        assert_eq!(Position::new(BOARD_WIDTH, BOARD_HEIGHT), position.plus_y());
+    }
+}
+
