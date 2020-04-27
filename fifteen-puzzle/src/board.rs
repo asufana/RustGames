@@ -33,6 +33,10 @@ impl Board {
             }
             output = format!("{}|\n+--+--+--+--+\n", output);
         }
+        //クリアしたかどうか
+        if self.is_finished() {
+            output = format!("{}CONGRATULATION!", output);
+        }
         output
     }
 
@@ -56,4 +60,17 @@ impl Board {
         self.cells[move_position.y()][move_position.x()] = BLANK_NUMBER;
     }
 
+    //ゲームクリア判定
+    fn is_finished(&self) -> bool {
+        let mut is_finished = true;
+        for y in 0..BOARD_HEIGHT {
+            for x in 0..BOARD_WIDTH {
+                if self.cells[y][x] != y * BOARD_WIDTH + x + 1 {
+                    is_finished = false;
+                    break;
+                }
+            }
+        }
+        is_finished
+    }
 }
