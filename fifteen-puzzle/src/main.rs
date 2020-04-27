@@ -9,20 +9,20 @@ fn main() {
     noecho();
 
     //初期表示
-    let board = Board::new();
+    let mut board = Board::new();
     window.printw(board.output());
 
     loop {
         //ブランク位置
         let blank_position = board.blank_position();
-        window.printw(format!("BLANK: y:{}, x:{}", blank_position.y(), blank_position.x()));
 
         //入力受付
         match window.getch() {
-            Some(Input::KeyUp) => println!("↑"),
-            Some(Input::KeyDown) => println!("↓"),
-            Some(Input::KeyLeft) => println!("←"),
-            Some(Input::KeyRight) => println!("→"),
+            //カーソル位置移動
+            Some(Input::KeyUp) => board.move_blank(blank_position.minus_y()),
+            Some(Input::KeyDown) => board.move_blank(blank_position.plus_y()),
+            Some(Input::KeyLeft) => board.move_blank(blank_position.minus_x()),
+            Some(Input::KeyRight) => board.move_blank(blank_position.plus_x()),
             _ => ()
         };
 

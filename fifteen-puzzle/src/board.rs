@@ -48,4 +48,12 @@ impl Board {
         }
         blank_position
     }
+
+    //ブランク位置の変更
+    pub fn move_blank(&mut self, move_position: Position) {
+        let blank_position = self.blank_position();
+        self.cells[blank_position.y()][blank_position.x()] = self.cells[move_position.y()][move_position.x()];
+        self.cells[move_position.y()][move_position.x()] = BLANK_NUMBER;
+    }
+
 }
