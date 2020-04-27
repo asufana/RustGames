@@ -1,3 +1,4 @@
+use crate::position::Position;
 
 pub const BOARD_WIDTH: usize = 4;
 pub const BOARD_HEIGHT: usize = 4;
@@ -33,5 +34,18 @@ impl Board {
             output = format!("{}|\n+--+--+--+--+\n", output);
         }
         output
+    }
+
+    //ブランク位置の取得
+    pub fn blank_position(&self) -> Position {
+        let mut blank_position = Position::empty();
+        for y in 0..BOARD_HEIGHT {
+            for x in 0..BOARD_WIDTH {
+                if self.cells[y][x] == BLANK_NUMBER {
+                    blank_position = Position::new(x, y);
+                }
+            }
+        }
+        blank_position
     }
 }

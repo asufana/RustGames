@@ -13,6 +13,10 @@ fn main() {
     window.printw(board.output());
 
     loop {
+        //ブランク位置
+        let blank_position = board.blank_position();
+        window.printw(format!("BLANK: y:{}, x:{}", blank_position.y(), blank_position.x()));
+
         //入力受付
         match window.getch() {
             Some(Input::KeyUp) => println!("↑"),
