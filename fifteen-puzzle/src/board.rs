@@ -1,8 +1,10 @@
 use crate::position::Position;
+use rand::Rng;
 
 pub const BOARD_WIDTH: usize = 4;
 pub const BOARD_HEIGHT: usize = 4;
 const BLANK_NUMBER: usize = 16;
+const SHUFFLE_COUNT: usize = 10;
 
 //盤面
 pub struct Board { cells: [[usize; BOARD_HEIGHT]; BOARD_WIDTH] }
@@ -17,6 +19,30 @@ impl Board {
             }
         }
         Self { cells }
+    }
+
+    //シャッフル付き初期化
+    pub fn initialize() -> Self {
+        let mut board = Board::new();
+        board.shuffle();
+        board
+    }
+
+    //シャッフル
+    fn shuffle(&mut self) {
+        let mut rng = rand::thread_rng();
+        for _ in 0..SHUFFLE_COUNT {
+            let i = rng.gen_range(1, 101);
+            let blank_position = self.blank_position();
+            let blank_position = match i % 4 {
+                0 => blank_position.plus_y(),
+                1 => blank_position.minus_y(),
+                2 => blank_position.plus_x(),
+                3 => blank_position.minus_x(),
+                _ => blank_position
+            };
+            self.move_blank(blank_position);
+        }
     }
 
     //表示

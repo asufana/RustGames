@@ -9,7 +9,7 @@ fn main() {
     noecho();
 
     //初期表示
-    let mut board = Board::new();
+    let mut board = Board::initialize();
     window.printw(board.output());
 
     loop {
