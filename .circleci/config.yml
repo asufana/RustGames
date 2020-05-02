@@ -3,7 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/rust
-    working_directory: fifteen-puzzle
     steps:
       - checkout
       - run:
