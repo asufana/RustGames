@@ -1,0 +1,14 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/rust
+    steps:
+      - checkout
+      - run:
+          name: rustup version
+          command: rustup --version
+      - run:
+          name: test fifteen-puzzle
+          command: cd fifteen-puzzle && cargo test
+
