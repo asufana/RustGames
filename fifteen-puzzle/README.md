@@ -8,7 +8,7 @@
 
 
 
-### この実装で学べること
+## この実装で学べること
 
 ##### 実装面
 
@@ -26,11 +26,11 @@
 
 
 
-### 実装順序
+## 実装順序
 
 ゲヱム道館先生のプログラミング実況動画とおおよそ同じ順番に合わせているので、実装順は動画を見てもらうのがわかりやすいです。
 
-##### Rustプロジェクト作成
+##### 1. Rustプロジェクト作成
 
 https://github.com/asufana/RustGames/pull/2/commits/7c0aa1a9f51246f567bcc147cc573f1d7b291160
 
@@ -40,7 +40,7 @@ https://github.com/asufana/RustGames/pull/2/commits/7c0aa1a9f51246f567bcc147cc57
 
 
 
-##### ボードの初期化と表示
+##### 2. ボードの初期化と表示
 
 https://github.com/asufana/RustGames/pull/2/commits/cebd0294d3ed47c49c0be892483ef2ba68b5354e
 
@@ -49,7 +49,7 @@ https://github.com/asufana/RustGames/pull/2/commits/cebd0294d3ed47c49c0be892483e
 
 
 
-##### ブランク位置の取得と表示
+##### 3. ブランク位置の取得と表示
 
 https://github.com/asufana/RustGames/pull/2/commits/83bc896a74b5156e51586c5b2cbe70a8b4faab07
 
@@ -58,7 +58,7 @@ https://github.com/asufana/RustGames/pull/2/commits/83bc896a74b5156e51586c5b2cbe
 
 
 
-##### ブランク位置の移動
+##### 4. ブランク位置の移動
 
 https://github.com/asufana/RustGames/pull/2/commits/985664b0c6a934f48ed4d9d7459ea4d282428771
 
@@ -67,7 +67,7 @@ https://github.com/asufana/RustGames/pull/2/commits/985664b0c6a934f48ed4d9d7459e
 
 
 
-##### テストの追加
+##### 5. テストの追加
 
 https://github.com/asufana/RustGames/pull/2/commits/e77877256e6adf90e8133cb42ee026cafd0ee31b
 
@@ -75,7 +75,7 @@ https://github.com/asufana/RustGames/pull/2/commits/e77877256e6adf90e8133cb42ee0
 
 
 
-##### ゲームクリア判定の追加
+##### 6. ゲームクリア判定の追加
 
 https://github.com/asufana/RustGames/pull/2/commits/76b624314467e77eb44148a6f57898c0efbc41bf
 
@@ -83,12 +83,20 @@ https://github.com/asufana/RustGames/pull/2/commits/76b624314467e77eb44148a6f578
 
 
 
-##### 初期化時のシャッフル
+##### 7. 初期化時のシャッフル
 
 https://github.com/asufana/RustGames/pull/2/commits/12a4519188e4ddb8e93bb0568be68b1fa5636972
 
 - 動画 28:48 までの内容
 - ボード構造体の初期化時にシャッフル処理を追加
+
+
+
+##### 8. CircleCIでのCIテスト設定
+
+https://github.com/asufana/RustGames/pull/4
+
+
 
 
 
