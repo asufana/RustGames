@@ -9,6 +9,6 @@ jobs:
           name: rustup version
           command: rustup --version
       - run:
-          name: test
+          name: test fifteen-puzzle
           command: cd fifteen-puzzle && cargo test
 
