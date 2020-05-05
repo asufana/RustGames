@@ -11,4 +11,7 @@ jobs:
       - run:
           name: test fifteen-puzzle
           command: cd fifteen-puzzle && cargo test
+      - run:
+          name: test puzzdra
+          command: cd puzzdra && cargo build
 
