@@ -2,8 +2,8 @@ use rand::Rng;
 use crate::drop_type::{DROP_MAX, DropType};
 use crate::position::Position;
 
-const BOARD_HEIGHT: usize = 6;
-const BOARD_WIDTH: usize = 5;
+pub const BOARD_HEIGHT: usize = 6;
+pub const BOARD_WIDTH: usize = 5;
 
 pub struct Board {
     cells: [[usize; BOARD_WIDTH]; BOARD_HEIGHT],
@@ -54,6 +54,18 @@ impl Board {
         self.holding = !self.holding;
     }
 
+    //カーソル移動によるセルの入れ替え
+    pub fn move_cursor(&mut self, cursor: Position) {
+        if self.holding {
+            let current_cursor = self.cursor;
+            let current_value = self.get_cell(current_cursor.x(), current_cursor.y());
+            self.set_cell(current_cursor.x(), current_cursor.y(), self.get_cell(cursor.x(), cursor.y()));
+            self.set_cell(current_cursor.x(), current_cursor.y(), self.get_cell(cursor.x(), cursor.y()));
+            self.set_cell(cursor.x(), cursor.y(), current_value);
+        }
+        self.cursor = cursor;
+    }
+
     //描画
     pub fn output(&self) -> String {
         let mut output = String::new();
@@ -68,7 +80,19 @@ impl Board {
                 };
                 output = format!("{}{: >2}", output, aa);
             }
-            output = format!("{}　\n", output);
+            if y == self.cursor.y() {
+                output = format!("{} 👈", output);
+            } else {
+                output = format!("{}　", output);
+            }
+            output = format!("{}\n", output);
+        }
+        for x in 0..BOARD_WIDTH {
+            if x == self.cursor.x() {
+                output = format!("{} 👆", output);
+            } else {
+                output = format!("{}　", output);
+            }
         }
         format!("{}\n", output)
     }

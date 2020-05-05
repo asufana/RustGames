@@ -15,10 +15,10 @@ fn main() {
     loop {
         //入力受付
         match window.getch() {
-            Some(Input::KeyUp) => println!("↑"),
-            Some(Input::KeyDown) => println!("↓"),
-            Some(Input::KeyLeft) => println!("←"),
-            Some(Input::KeyRight) => println!("→"),
+            Some(Input::KeyUp) => board.move_cursor(board.cursor.move_minus_y()),
+            Some(Input::KeyDown) => board.move_cursor(board.cursor.move_plus_y()),
+            Some(Input::KeyLeft) => board.move_cursor(board.cursor.move_minus_x()),
+            Some(Input::KeyRight) => board.move_cursor(board.cursor.move_plus_x()),
             _ => board.hold()
         };
 

@@ -52,7 +52,9 @@ https://github.com/asufana/RustGames/pull/6/commits/2d7f637e260717871ab9b91ed88e
 
 
 
+##### 5. カーソルとホールド状態の追加
 
+https://github.com/asufana/RustGames/pull/6/commits/6c26761a3e9dd983567bbe0fa99a77f3c3c8afe2
 
-
+- タップしてぐりぐりするパズドラ処理の、タップした状態をホールドとして、タップしたドロップをカーソルとして管理する
 
