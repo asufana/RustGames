@@ -64,11 +64,16 @@ impl Board {
     //アクセサ
     fn get_cell(&self, x: usize, y: usize) -> usize { self.cells[y][x] }
     fn set_cell(&mut self, x: usize, y: usize, value: usize) { self.cells[y][x] = value; }
+    fn get_erase_cell(&self, x: usize, y: usize) -> bool { self.erase_cells[y][x] }
     fn set_erase_cell(&mut self, x: usize, y: usize, value: bool) { self.erase_cells[y][x] = value; }
 
     //ホールドと解除
     pub fn hold(&mut self) {
         self.holding = !self.holding;
+
+        if !self.holding && self.has_chain() {
+            self.erase_drops();
+        }
     }
 
     //ブランクかどうか
@@ -137,8 +142,29 @@ impl Board {
         count
     }
 
+    //削除処理
+    fn erase_drops(&mut self) {
+        //削除フラグの設定
+        self.apply_cells(|board: &mut Board, x: usize, y: usize| {
+            for d in Direction::iterator() {
+                let chain_count = board.check_chain(x, y, d, false);
+                if chain_count >= ERASE_CHAIN_COUNT {
+                    board.check_chain(x, y, d, true);
+                }
+            }
+        });
+        //削除フラグに基づいて削除
+        self.apply_cells(|board: &mut Board, x: usize, y: usize| {
+            if board.get_erase_cell(x, y) == true {
+                board.set_cell(x, y, 0);
+            }
+        });
+        //削除フラグのクリア
+        self.erase_cells = [[false; BOARD_WIDTH]; BOARD_HEIGHT];
+    }
+
     //描画
-    pub fn output(&mut self) -> String {
+    pub fn output(&self) -> String {
         let mut output = String::new();
         for y in 0..BOARD_HEIGHT {
             for x in 0..BOARD_WIDTH {
@@ -149,7 +175,11 @@ impl Board {
                 } else {
                     drop_type.to_aa()
                 };
-                output = format!("{}{: >2}", output, aa);
+                output = if drop_type == DropType::NONE {
+                    format!("{}{}", output, aa)
+                } else {
+                    format!("{}{: >2}", output, aa)
+                }
             }
             if y == self.cursor.y() {
                 output = format!("{} 👈", output);
@@ -165,12 +195,6 @@ impl Board {
                 output = format!("{}　", output);
             }
         }
-
-        //おためし
-        if self.has_chain() {
-            output = format!("{}\nFound chains!\n", output);
-        }
-
         format!("{}\n", output)
     }
 }
