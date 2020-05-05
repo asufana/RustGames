@@ -1,12 +1,27 @@
 use rand::Rng;
 use crate::drop_type::{DROP_MAX, DropType};
 use crate::position::Position;
+use crate::board::Direction::{RIGHT, DOWN};
 
 pub const BOARD_HEIGHT: usize = 6;
 pub const BOARD_WIDTH: usize = 5;
+const ERASE_CHAIN_COUNT: i8 = 3;
+
+#[derive(Copy, Clone)]
+enum Direction {
+    RIGHT,
+    DOWN,
+}
+
+impl Direction {
+    pub fn iterator() -> impl Iterator<Item=Direction> {
+        [RIGHT, DOWN].iter().copied()
+    }
+}
 
 pub struct Board {
     cells: [[usize; BOARD_WIDTH]; BOARD_HEIGHT],
+    erase_cells: [[bool; BOARD_WIDTH]; BOARD_HEIGHT],
     pub cursor: Position,
     holding: bool,
 }
@@ -15,6 +30,7 @@ impl Board {
     fn new() -> Self {
         Self {
             cells: [[0; BOARD_WIDTH]; BOARD_HEIGHT],
+            erase_cells: [[false; BOARD_WIDTH]; BOARD_HEIGHT],
             cursor: Position::empty(),
             holding: false,
         }
@@ -48,10 +64,16 @@ impl Board {
     //アクセサ
     fn get_cell(&self, x: usize, y: usize) -> usize { self.cells[y][x] }
     fn set_cell(&mut self, x: usize, y: usize, value: usize) { self.cells[y][x] = value; }
+    fn set_erase_cell(&mut self, x: usize, y: usize, value: bool) { self.erase_cells[y][x] = value; }
 
     //ホールドと解除
     pub fn hold(&mut self) {
         self.holding = !self.holding;
+    }
+
+    //ブランクかどうか
+    fn is_blank(&self, x: usize, y: usize) -> bool {
+        self.get_cell(x, y) == 0
     }
 
     //カーソル移動によるセルの入れ替え
@@ -66,8 +88,57 @@ impl Board {
         self.cursor = cursor;
     }
 
+    //連続したドロップが存在するかどうか
+    fn has_chain(&mut self) -> bool {
+        let mut has_chain = false;
+        self.apply_cells(|board: &mut Board, x: usize, y: usize| {
+            for d in Direction::iterator() {
+                let chain_count = board.check_chain(x, y, d, false);
+                if chain_count >= ERASE_CHAIN_COUNT {
+                    has_chain = true;
+                }
+            }
+        });
+        has_chain
+    }
+
+    //ドロップ連続値の取得
+    fn check_chain(&mut self, x: usize, y: usize, dir: Direction, erase: bool) -> i8 {
+        if self.is_blank(x, y) {
+            return 0;
+        };
+        if erase {
+            self.set_erase_cell(x, y, true);
+        }
+
+        let mut count: i8 = 1;
+        let mut next_position = match dir {
+            Direction::RIGHT => Position::new(x, y).get_right_position(),
+            Direction::DOWN => Position::new(x, y).get_down_position(),
+        };
+
+        loop {
+            if !next_position.within_limit() {
+                break;
+            }
+            if self.get_cell(x, y) != self.get_cell(next_position.x(), next_position.y()) {
+                break;
+            }
+            if erase {
+                self.set_erase_cell(next_position.x(), next_position.y(), true);
+            }
+
+            count += 1;
+            next_position = match dir {
+                Direction::RIGHT => next_position.get_right_position(),
+                Direction::DOWN => next_position.get_down_position(),
+            };
+        }
+        count
+    }
+
     //描画
-    pub fn output(&self) -> String {
+    pub fn output(&mut self) -> String {
         let mut output = String::new();
         for y in 0..BOARD_HEIGHT {
             for x in 0..BOARD_WIDTH {
@@ -94,6 +165,12 @@ impl Board {
                 output = format!("{}　", output);
             }
         }
+
+        //おためし
+        if self.has_chain() {
+            output = format!("{}\nFound chains!\n", output);
+        }
+
         format!("{}\n", output)
     }
 }

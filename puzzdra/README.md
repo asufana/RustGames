@@ -58,3 +58,10 @@ https://github.com/asufana/RustGames/pull/6/commits/6c26761a3e9dd983567bbe0fa99a
 
 - タップしてぐりぐりするパズドラ処理の、タップした状態をホールドとして、タップしたドロップをカーソルとして管理する
 
+##### 6. カーソル移動処理
+
+https://github.com/asufana/RustGames/pull/6/commits/22b24041780422bcb41f5b45cee94921f640ad14
+
+- カーソル位置の表示
+- カーソル移動によるドロップの入れ替え
+

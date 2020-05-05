@@ -44,4 +44,18 @@ impl Position {
             Position::new(self.x - 1, self.y)
         }
     }
+
+    //一つ右に移動
+    pub fn get_right_position(&self) -> Self {
+        Position::new(self.x + 1, self.y)
+    }
+    //一つ下に移動
+    pub fn get_down_position(&self) -> Self {
+        Position::new(self.x, self.y + 1)
+    }
+    //枠内かどうか
+    pub fn within_limit(&self) -> bool {
+        //右移動と下移動しかないため最大値のみチェックする
+        self.y <= BOARD_HEIGHT - 1 && self.x <= BOARD_WIDTH - 1
+    }
 }
