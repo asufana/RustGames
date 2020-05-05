@@ -43,6 +43,15 @@ https://github.com/asufana/RustGames/pull/6/commits/82ae39601adbf68f089c8870fe57
 
 
 
+##### 4. ドロップ種別の追加
+
+https://github.com/asufana/RustGames/pull/6/commits/2d7f637e260717871ab9b91ed88e81c8429d50c2
+
+- ◯△▽といったドロップ種別の追加
+- 2次元配列を毎回走査するのはイケてないので関数を引数に取るメソッドを整備
+
+
+
 
 
 

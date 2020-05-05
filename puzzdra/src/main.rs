@@ -9,7 +9,7 @@ fn main() {
     noecho();
 
     //初期表示
-    let board = Board::initialize();
+    let mut board = Board::initialize();
     window.printw(board.output());
 
     loop {
@@ -19,7 +19,7 @@ fn main() {
             Some(Input::KeyDown) => println!("↓"),
             Some(Input::KeyLeft) => println!("←"),
             Some(Input::KeyRight) => println!("→"),
-            _ => ()
+            _ => board.hold()
         };
 
         //再描画
