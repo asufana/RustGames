@@ -83,3 +83,11 @@ https://github.com/asufana/RustGames/pull/6/commits/b9bd9580245dcde0c07a338edfa7
 
 - ３つ以上並んだ同じドロップを削除
 
+
+
+##### 9. ドロップが落ちるアニメーション
+
+https://github.com/asufana/RustGames/pull/6/commits/add765a0494a07a6772ca9beb781f6a7c061dc3a
+
+- ドロップが削除されたスペースに上のドロップが落ちる処理
+
