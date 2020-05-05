@@ -73,7 +73,13 @@ https://github.com/asufana/RustGames/pull/6/commits/22b24041780422bcb41f5b45cee9
 
 https://github.com/asufana/RustGames/pull/6/commits/bb79a78b94df9ad3cb5dde24d577edb89471ccd8
 
-- ３つ以上同じドロップが並んでいるかどうかを検出
+- ３つ以上並んだ同じドロップが存在するか検出
 
 
+
+##### 8. 連続したドロップの削除
+
+https://github.com/asufana/RustGames/pull/6/commits/b9bd9580245dcde0c07a338edfa7763f63f0c656
+
+- ３つ以上並んだ同じドロップを削除
 

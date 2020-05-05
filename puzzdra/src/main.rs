@@ -1,5 +1,7 @@
 use pancurses::{initscr, Input, noecho};
 use puzzdra::board::Board;
+use std::thread::sleep;
+use std::time::Duration;
 
 fn main() {
     //入力受付
@@ -23,7 +25,18 @@ fn main() {
         };
 
         //再描画
-        window.clear();
-        window.printw(board.output());
+        loop {
+            window.clear();
+            window.printw(board.output());
+            window.refresh();
+
+            //アニメーション処理中であれば処理し続ける
+            if !board.animating() {
+                sleep(Duration::from_millis(300));
+                board.erase_and_animate();
+            } else {
+                break;
+            }
+        }
     }
 } 

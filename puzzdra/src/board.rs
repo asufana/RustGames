@@ -24,6 +24,7 @@ pub struct Board {
     erase_cells: [[bool; BOARD_WIDTH]; BOARD_HEIGHT],
     pub cursor: Position,
     holding: bool,
+    animating: bool,
 }
 
 impl Board {
@@ -33,6 +34,7 @@ impl Board {
             erase_cells: [[false; BOARD_WIDTH]; BOARD_HEIGHT],
             cursor: Position::empty(),
             holding: false,
+            animating: false,
         }
     }
 
@@ -71,8 +73,8 @@ impl Board {
     pub fn hold(&mut self) {
         self.holding = !self.holding;
 
-        if !self.holding && self.has_chain() {
-            self.erase_drops();
+        if self.holding == false {
+            self.animating = true;
         }
     }
 
@@ -142,6 +144,18 @@ impl Board {
         count
     }
 
+    //ドロップ削除＆アニメーション処理
+    pub fn erase_and_animate(&mut self) {
+        if !self.has_blank() {
+            self.erase_drops();
+        }
+        self.animate_drops();
+
+        if !self.has_blank() && !self.has_chain() {
+            self.animating = false;
+        }
+    }
+
     //削除処理
     fn erase_drops(&mut self) {
         //削除フラグの設定
@@ -163,6 +177,40 @@ impl Board {
         self.erase_cells = [[false; BOARD_WIDTH]; BOARD_HEIGHT];
     }
 
+    //ドロップを落とすアニメーション
+    fn animate_drops(&mut self) {
+        for y in (0..(BOARD_HEIGHT - 1)).rev() {
+            for x in 0..BOARD_WIDTH {
+                if !self.is_blank(x, y) && self.is_blank(x, y + 1) {
+                    self.set_cell(x, y + 1, self.get_cell(x, y));
+                    self.set_cell(x, y, 0);
+                }
+            }
+        }
+        //空いたブランクを埋める
+        for x in 0..BOARD_WIDTH {
+            if self.is_blank(x, 0) {
+                self.set_cell(x, 0, Board::random_value());
+            }
+        }
+    }
+
+    //キー入力を受け付けるかどうか
+    pub fn animating(&self) -> bool {
+        !self.animating
+    }
+
+    //ブランクが存在するか
+    pub fn has_blank(&mut self) -> bool {
+        let mut has_blank = false;
+        self.apply_cells(|board: &mut Board, x: usize, y: usize| {
+            if board.is_blank(x, y) {
+                has_blank = true;
+            }
+        });
+        has_blank
+    }
+
     //描画
     pub fn output(&self) -> String {
         let mut output = String::new();
@@ -181,7 +229,7 @@ impl Board {
                     format!("{}{: >2}", output, aa)
                 }
             }
-            if y == self.cursor.y() {
+            if !self.animating && y == self.cursor.y() {
                 output = format!("{} 👈", output);
             } else {
                 output = format!("{}　", output);
@@ -189,7 +237,7 @@ impl Board {
             output = format!("{}\n", output);
         }
         for x in 0..BOARD_WIDTH {
-            if x == self.cursor.x() {
+            if !self.animating && x == self.cursor.x() {
                 output = format!("{} 👆", output);
             } else {
                 output = format!("{}　", output);
