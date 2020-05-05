@@ -1,8 +1,8 @@
 use rand::Rng;
+use crate::drop_type::{DROP_MAX, DropType};
 
 const BOARD_HEIGHT: usize = 6;
 const BOARD_WIDTH: usize = 5;
-const DROP_MAX: usize = 5;
 
 pub struct Board {
     cells: [[usize; BOARD_WIDTH]; BOARD_HEIGHT],
@@ -18,12 +18,20 @@ impl Board {
     //初期化
     pub fn initialize() -> Self {
         let mut this = Board::new();
+        this.apply_cells(|board: &mut Board, x: usize, y: usize| {
+            board.set_cell(x, y, Board::random_value());
+        });
+        this
+    }
+
+    //ボードの全セルに対して何らか処理を行う
+    fn apply_cells<F>(&mut self, mut function: F)
+        where F: FnMut(&mut Board, usize, usize) -> () {
         for y in 0..BOARD_HEIGHT {
             for x in 0..BOARD_WIDTH {
-                this.set_cell(x, y, Board::random_value());
+                function(self, x, y);
             }
         }
-        this
     }
 
     //ランダム値の生成
@@ -42,9 +50,11 @@ impl Board {
         for y in 0..BOARD_HEIGHT {
             for x in 0..BOARD_WIDTH {
                 let n = self.get_cell(x, y);
-                output = format!("{}{: >2}", output, n);
+                let drop_type = DropType::from(n);
+                let aa = drop_type.to_aa();
+                output = format!("{}{: >2}", output, aa);
             }
-            output = format!("{}\n", output);
+            output = format!("{}　\n", output);
         }
         format!("{}\n", output)
     }

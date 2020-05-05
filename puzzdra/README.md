@@ -35,6 +35,12 @@ https://github.com/asufana/RustGames/pull/6/commits/dd8e5b2532a7eac25a6c6e3b051c
 
 
 
+##### 3. ボードの初期化と表示
+
+https://github.com/asufana/RustGames/pull/6/commits/82ae39601adbf68f089c8870fe57974ffde4ad46
+
+- borad.rs ファイルを生成してボードの構造体を管理
+
 
 
 
