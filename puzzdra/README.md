@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/asufana/RustGames.svg?style=svg)](https://circleci.com/gh/asufana/RustGames)
+
 # パズドラ
 
 [ゲヱム道館先生の素敵なプログラミング実況動画](https://www.youtube.com/channel/UCj3K2Xy0nQr3Jdc0nd-8zQw) から、今回は [パズドラ](https://www.youtube.com/watch?v=WUHzFk5X-aQ) をRustで習作してみます。
@@ -18,11 +20,18 @@
 
 ##### 1. Rustプロジェクト作成
 
-https://github.com/asufana/RustGames/pull/2/commits/7c0aa1a9f51246f567bcc147cc573f1d7b291160
+https://github.com/asufana/RustGames/pull/6/commits/5d81ee521e3fdd1c3c5515eface3e125d2a2cd2d
 
 - 動画 2:13 までの内容
-
 - キーボード入力のところはクレートを使うので、ここに最初から含めてしまいます
+
+
+
+##### 2. CircleCI設定
+
+https://github.com/asufana/RustGames/pull/6/commits/dd8e5b2532a7eac25a6c6e3b051cec87921941e3
+
+- CircleCIにもビルドテストを設定しておきます
 
 
 

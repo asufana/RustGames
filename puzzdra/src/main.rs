@@ -1,4 +1,5 @@
 use pancurses::{initscr, Input, noecho};
+use puzzdra::board::Board;
 
 fn main() {
     //入力受付
@@ -8,7 +9,8 @@ fn main() {
     noecho();
 
     //初期表示
-    window.printw("test");
+    let board = Board::initialize();
+    window.printw(board.output());
 
     loop {
         //入力受付
@@ -21,7 +23,7 @@ fn main() {
         };
 
         //再描画
-        //window.clear();
-        //window.printw("test");
+        window.clear();
+        window.printw(board.output());
     }
 } 
