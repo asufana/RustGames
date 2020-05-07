@@ -2,7 +2,7 @@
 
 # パズドラ
 
-[ゲヱム道館先生の素敵なプログラミング実況動画](https://www.youtube.com/channel/UCj3K2Xy0nQr3Jdc0nd-8zQw) から、今回は [パズドラ](https://www.youtube.com/watch?v=WUHzFk5X-aQ) をRustで習作してみます。
+[ゲヱム道館館長の素敵なプログラミング実況動画](https://www.youtube.com/channel/UCj3K2Xy0nQr3Jdc0nd-8zQw) から、今回は [パズドラ](https://www.youtube.com/watch?v=WUHzFk5X-aQ) をRustで習作してみます。
 
 
 

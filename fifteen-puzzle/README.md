@@ -2,9 +2,9 @@
 
 # 15パズル
 
-[ゲヱム道館先生の素敵なプログラミング実況動画](https://www.youtube.com/channel/UCj3K2Xy0nQr3Jdc0nd-8zQw) から、今回は [15パズル](https://www.youtube.com/watch?v=YoQt9RHy8rA) をRustで習作してみます。4 x 4 のセルの中に 1 〜 15 の番号がランダムに配置されていて、番号順に揃えるというあれですね。
+[ゲヱム道館館長の素敵なプログラミング実況動画](https://www.youtube.com/channel/UCj3K2Xy0nQr3Jdc0nd-8zQw) から、今回は [15パズル](https://www.youtube.com/watch?v=YoQt9RHy8rA) をRustで習作してみます。4 x 4 のセルの中に 1 〜 15 の番号がランダムに配置されていて、番号順に揃えるというあれですね。
 
-ゲヱム道館先生の動画ではC実装ですが、Rustに移植します。コンソール上でASCII表示するところは同じです。
+ゲヱム道館館長の動画ではC実装ですが、Rustに移植します。コンソール上でASCII表示するところは同じです。
 
 
 
