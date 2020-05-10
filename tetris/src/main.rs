@@ -1,8 +1,12 @@
-use pancurses::{initscr, Input, noecho, endwin};
+use pancurses::{initscr, noecho, endwin};
 use tetris::board::Board;
+use std::thread::sleep;
+use std::time::Duration;
+use device_query::{DeviceQuery, DeviceState, Keycode};
 
 fn main() {
     //入力受付
+    let device_state = DeviceState::new();
     let window = initscr();
     window.refresh();
     window.keypad(true);
@@ -21,16 +25,20 @@ fn main() {
 
     loop {
         //入力受付
-        match window.getch() {
-            Some(Input::KeyUp) => println!("↑"),
-            Some(Input::KeyDown) => println!("↓"),
-            Some(Input::KeyLeft) => println!("←"),
-            Some(Input::KeyRight) => println!("→"),
-            _ => ()
-        };
+        let keys: Vec<Keycode> = device_state.get_keys();
+        if !keys.is_empty() {
+            match keys[0] {
+                Keycode::Down => board.down(),
+                Keycode::Left => board.left(),
+                Keycode::Right => board.right(),
+                _ => board.rotate(),
+            };
 
-        //再描画
-        //window.clear();
-        //window.printw("test");
+            //再描画
+            window.clear();
+            window.printw(board.output());
+            window.refresh();
+            sleep(Duration::from_millis(100));
+        }
     }
 }

@@ -27,6 +27,40 @@ impl Mino {
     pub fn value(&self, x: usize, y: usize) -> usize {
             SHAPES[self.typ][self.angle][y][x]
         }
+    pub fn has_value(&self, x: usize, y: usize) -> bool { self.value(x, y) == 1 }
+
+    pub fn left(&self) -> Self {
+        Self {
+            typ: self.typ,
+            angle: self.angle,
+            x: self.x - 1,
+            y: self.y,
+        }
+    }
+    pub fn right(&self) -> Self {
+        Self {
+            typ: self.typ,
+            angle: self.angle,
+            x: self.x + 1,
+            y: self.y,
+        }
+    }
+    pub fn down(&self) -> Self {
+        Self {
+            typ: self.typ,
+            angle: self.angle,
+            x: self.x,
+            y: self.y + 1,
+        }
+    }
+    pub fn rotate(&self) -> Self {
+        Self {
+            typ: self.typ,
+            angle: (self.angle + 1) % MINO_ANGLE_MAX,
+            x: self.x,
+            y: self.y,
+        }
+    }
 }
 
 

@@ -60,6 +60,41 @@ impl Board {
         y == 0 || y == BOARD_HEIGHT - 1 || x == 0 || x == BOARD_WIDTH - 1
     }
 
+    //左移動
+    pub fn left(&mut self) {
+        let mino = self.mino.left();
+        self.move_mino(mino);
+    }
+    //右移動
+    pub fn right(&mut self) {
+        let mino = self.mino.right();
+        self.move_mino(mino);
+    }
+    //回転
+    pub fn rotate(&mut self) {
+        let mino = self.mino.rotate();
+        self.move_mino(mino);
+    }
+    //下移動
+    pub fn down(&mut self) {
+        let mino = self.mino.down();
+        self.move_mino(mino);
+    }
+
+    //ミノを移動
+    pub fn move_mino(&mut self, mino: Mino) {
+        //新しいミノ位置
+        self.mino = mino;
+        //バッファクリア
+        self.buffer = [[0; BOARD_WIDTH + MINO_WIDTH]; BOARD_HEIGHT + MINO_HEIGHT];
+        //移動
+        self.apply_mino_fields(|board: &mut Board, x: usize, y: usize| {
+            if board.mino.has_value(x, y) {
+                board.set_buffer_field(x + board.mino.x, y + board.mino.y, board.mino.value(x, y));
+            }
+        });
+    }
+
     //アクセサ
     fn get_field(&self, x: usize, y: usize) -> usize { self.field[y][x] }
     fn set_field(&mut self, x: usize, y: usize, value: usize) { self.field[y][x] = value; }
