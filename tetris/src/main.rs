@@ -1,4 +1,5 @@
 use pancurses::{initscr, Input, noecho, endwin};
+use tetris::board::Board;
 
 fn main() {
     //入力受付
@@ -14,7 +15,9 @@ fn main() {
     }).expect("Error setting Ctrl-C handler");
 
     //初期表示
-    window.printw("test");
+    let mut board = Board::initialize();
+    window.printw(board.output());
+    window.refresh();
 
     loop {
         //入力受付
