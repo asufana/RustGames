@@ -89,6 +89,19 @@ impl Board {
         let mino = self.mino.down();
         if !self.is_hit(mino) {
             self.move_mino(mino);
+        } else {
+            //下移動できなければフィールドに固定
+            self.apply_mino_fields(|board: &mut Board, x: usize, y: usize| {
+                if board.mino.has_value(x, y) {
+                    board.set_field(board.mino.x + x, board.mino.y + y, 1);
+                }
+            });
+            //バッファクリア
+            self.buffer = [[0; BOARD_WIDTH + MINO_WIDTH]; BOARD_HEIGHT + MINO_HEIGHT];
+            //列クリア
+            self.clear_line();
+            //新しいミノを配置
+            self.mino = Mino::random();
         }
     }
 
@@ -115,6 +128,39 @@ impl Board {
                 board.set_buffer_field(x + board.mino.x, y + board.mino.y, board.mino.value(x, y));
             }
         });
+    }
+
+    //列クリア
+    fn clear_line(&mut self) {
+        let mut clear_count = 0;
+        let mut line_number = 0;
+        //クリアする
+        for y in 1..BOARD_HEIGHT - 1 {
+            let mut line_fill = true;
+            for x in 1..BOARD_WIDTH - 1 {
+                if self.is_empty(x, y) {
+                    line_fill = false;
+                }
+            }
+            if line_fill {
+                for x in 1..BOARD_WIDTH - 1 {
+                    self.set_field(x, y, 0);
+                }
+                clear_count += 1;
+                line_number = y;
+            }
+        }
+        //クリアした分をドロップする
+        if clear_count != 0 {
+            for y in (1 .. line_number + 1).rev() {
+                if y > clear_count {
+                    for x in 1..BOARD_WIDTH - 1 {
+                        self.set_field(x, y, self.get_field(x, y - clear_count));
+                        self.set_field(x, y - clear_count, 0);
+                    }
+                }
+            }
+        }
     }
 
     //アクセサ
