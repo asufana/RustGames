@@ -62,23 +62,45 @@ impl Board {
 
     //左移動
     pub fn left(&mut self) {
+        if self.mino.x == 0 {
+            return ();
+        }
         let mino = self.mino.left();
-        self.move_mino(mino);
+        if !self.is_hit(mino) {
+            self.move_mino(mino);
+        }
     }
     //右移動
     pub fn right(&mut self) {
         let mino = self.mino.right();
-        self.move_mino(mino);
+        if !self.is_hit(mino) {
+            self.move_mino(mino);
+        }
     }
     //回転
     pub fn rotate(&mut self) {
         let mino = self.mino.rotate();
-        self.move_mino(mino);
+        if !self.is_hit(mino) {
+            self.move_mino(mino);
+        }
     }
     //下移動
     pub fn down(&mut self) {
         let mino = self.mino.down();
-        self.move_mino(mino);
+        if !self.is_hit(mino) {
+            self.move_mino(mino);
+        }
+    }
+
+    //ミノが配置できるか
+    fn is_hit(&mut self, mino: Mino) -> bool {
+        let mut is_hit = false;
+        self.apply_mino_fields(|board: &mut Board, x: usize, y: usize| {
+            if mino.has_value(x, y) && !board.is_empty(mino.x + x, mino.y + y) {
+                is_hit = true;
+            }
+        });
+        is_hit
     }
 
     //ミノを移動
@@ -98,6 +120,7 @@ impl Board {
     //アクセサ
     fn get_field(&self, x: usize, y: usize) -> usize { self.field[y][x] }
     fn set_field(&mut self, x: usize, y: usize, value: usize) { self.field[y][x] = value; }
+    fn is_empty(&self, x: usize, y: usize) -> bool { self.get_field(x, y) == 0 }
     fn get_buffer_field(&self, x: usize, y: usize) -> usize { self.buffer[y][x] }
     fn set_buffer_field(&mut self, x: usize, y: usize, value: usize) { self.buffer[y][x] = value; }
 
