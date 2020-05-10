@@ -1,4 +1,4 @@
-use pancurses::{initscr, Input, noecho};
+use pancurses::{initscr, Input, noecho, endwin};
 
 fn main() {
     //入力受付
@@ -6,6 +6,12 @@ fn main() {
     window.refresh();
     window.keypad(true);
     noecho();
+
+    //CTRL+Cで抜ける
+    ctrlc::set_handler(move || {
+        endwin();
+        std::process::exit(exitcode::OK);
+    }).expect("Error setting Ctrl-C handler");
 
     //初期表示
     window.printw("test");
