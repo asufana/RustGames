@@ -1,0 +1,9 @@
+{
+	"name": "Rust",
+	"image": "rust:1.68.2-bullseye",
+	"features": {
+		"ghcr.io/devcontainers/features/sshd:1": {
+        	"version": "latest"
+    	}
+	}
+}
